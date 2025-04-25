@@ -1,0 +1,8 @@
+# Ignore sensitive files
+appsettings.json
+*.db
+*.db-shm
+*.db-wal
+.vs/
+*.vsidx
+
