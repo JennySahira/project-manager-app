@@ -1,4 +1,6 @@
-﻿namespace ProjectManagerApp.Models
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace ProjectManagerApp.Models
 {
     public enum ProjectStatus
     {
@@ -16,6 +18,12 @@
         public DateTime EndDate { get; set; }
         public decimal Budget { get; set; }
         public ProjectStatus Status { get; set; }
-        public string UserId { get; set; }
+
+        public string? IconFileName { get; set; }
+
+
+        [BindNever]
+        public string? UserId { get; set; } //Skapad med hjälp av ChatGpt
+
     }
 }

@@ -4,38 +4,46 @@ using ProjectManagerApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Kopplar in databasen
+// Kopplar in databascontexten och läser anslutningssträng från appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Aktiverar Identity + kopplar till EF Core
+// Aktiverar ASP.NET Core Identity och kopplar till databasen via EF Core
+// SignIn.RequireConfirmedAccount = false tillåter inloggning utan e-. Skapad med hjälp av Chat gpt.
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+// Registrerar MVC-komponenter (controllers + views)
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
+    
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
+   
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
+
+
 app.UseStaticFiles();
 
-app.UseRouting();
+app.UseRouting(); 
 
-app.UseAuthorization();
-app.MapRazorPages(); 
+app.UseAuthentication(); 
+app.UseAuthorization();  
 
+app.MapRazorPages();
 
+// 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Projects}/{action=Index}/{id?}");
-
 
 app.Run();

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjectManagerApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a0923a29e9fa44abb328bf53ff83fb9e60485e1")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjectManagerApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjectManagerApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

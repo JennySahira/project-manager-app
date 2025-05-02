@@ -70,12 +70,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Projects/ProjectManagerApp/Views/Projects/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcQ3JlYXRlLmNzaHRtbA==
+[C:/Projects/ProjectManagerApp/Views/Projects/CreatePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcQ3JlYXRlUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projects/ProjectManagerApp/Views/Projects/Create_backup.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcQ3JlYXRlX2JhY2t1cC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Projects/ProjectManagerApp/Views/Projects/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projects/ProjectManagerApp/Views/Projects/DeletePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcRGVsZXRlUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Projects/ProjectManagerApp/Views/Projects/Details.cshtml]
@@ -84,6 +92,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Projects/ProjectManagerApp/Views/Projects/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projects/ProjectManagerApp/Views/Projects/EditPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcRWRpdFBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Projects/ProjectManagerApp/Views/Projects/Index.cshtml]

@@ -1,0 +1,70 @@
+﻿
+/* auth.css */
+
+/* Grundlayout för auth-formulär */
+.auth-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+    /* Rubriker */
+    .auth-container h1,
+    .auth-container h2 {
+        font-weight: 700;
+        color: #1A1926; /* Heading */
+    }
+
+    .auth-container h1 {
+        font-size: 36px;
+    }
+
+    .auth-container h2 {
+        font-size: 24px;
+        margin-bottom: 1rem;
+    }
+
+    /* Inputs */
+    .auth-container .form-floating input {
+        font-size: 15px;
+        font-weight: 600;
+        padding: 1rem;
+        border: 1px solid #EBEEF2; /* Border 100 */
+        background-color: #F9FAFB; /* Grey 100 approx */
+        color: #373F51; /* Body Light */
+    }
+
+    .auth-container .form-floating label {
+        font-size: 14px;
+        color: #637085; /* Body Light */
+    }
+
+    /* Knappar */
+    .auth-container .btn-primary {
+        background-color: #2D99FF; /* Accent */
+        border-color: #2D99FF;
+        font-weight: 600;
+    }
+
+        .auth-container .btn-primary:hover {
+            background-color: #2389e5;
+            border-color: #2389e5;
+        }
+
+/* Valideringsfel */
+.text-danger {
+    font-size: 13px;
+    margin-top: 0.25rem;
+}
+
+/* Sektion för externa login */
+.auth-container section h3 {
+    font-size: 20px;
+    margin-top: 2rem;
+    font-weight: 700;
+    color: #1A1926;
+}

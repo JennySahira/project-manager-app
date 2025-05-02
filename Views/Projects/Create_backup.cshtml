@@ -1,0 +1,78 @@
+﻿@model ProjectManagerApp.Models.Project
+
+@* Visar en felruta om det finns valideringsfel som skickats från controllern. Skapad med hjälp av ChatGPt *@
+@if (ViewBag.Errors != null)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewBag.Errors)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+<h1>Create</h1>
+<h4>Project</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+          
+
+            <!-- Här är dropdown för Status -->
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+               
+                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectManagerApp.Models.ProjectStatus>()">
+                    <option value="">-- Välj status --</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            @* Dropdown för val av ikon + förhandsvisning av vald ikon. Skapad med hjälp av Chat Gpt*@
+            <div class="form-group">
+                <label asp-for="IconFileName" class="control-label">Project Icon</label>
+                <select asp-for="IconFileName" class="form-control" id="iconSelect" onchange="updateIconPreview()">
+                    <option value="project-image">Project Image</option>
+                    <option value="icon1.png">Icon 1</option>
+                    <option value="icon2.png">Icon 2</option>
+                    <option value="icon3.png">Icon 3</option>
+                    <option value="icon4.png">Icon 4</option>
+                </select>
+                <span asp-validation-for="IconFileName" class="text-danger"></span>
+
+                <div class="mt-2">
+                    @* Dynamiskt förhandsgranskar ikonen baserat på vald fil. Skapad med hjälp av Chat GPT. *@
+                    <img id="iconPreview" src="@Url.Content($"~/images/projects/{Model.IconFileName ?? "icon1.png"}")" alt="Preview" width="100" height="100" />
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        // Funktion som byter ut bilden nedanför dropdownen när användaren väljer en ny ikon. Skapad med hjälp av Chat Gpt.
+        function updateIconPreview() {
+            const selectedValue = document.getElementById("iconSelect").value;
+            const previewImage = document.getElementById("iconPreview");
+            previewImage.src = `/images/projects/${selectedValue}`;
+        }
+    </script>
+}

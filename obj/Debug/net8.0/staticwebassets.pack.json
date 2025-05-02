@@ -5,12 +5,48 @@
       "PackagePath": "staticwebassets\\ProjectManagerApp.bundle.scp.css"
     },
     {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\css\\auth.css",
+      "PackagePath": "staticwebassets\\css\\auth.css"
+    },
+    {
       "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\images\\projects\\Logo.svg",
+      "PackagePath": "staticwebassets\\images\\projects\\Logo.svg"
+    },
+    {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\images\\projects\\avatar.png",
+      "PackagePath": "staticwebassets\\images\\projects\\avatar.png"
+    },
+    {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\images\\projects\\icon1.png",
+      "PackagePath": "staticwebassets\\images\\projects\\icon1.png"
+    },
+    {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\images\\projects\\icon2.png",
+      "PackagePath": "staticwebassets\\images\\projects\\icon2.png"
+    },
+    {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\images\\projects\\icon3.png",
+      "PackagePath": "staticwebassets\\images\\projects\\icon3.png"
+    },
+    {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\images\\projects\\icon4.png",
+      "PackagePath": "staticwebassets\\images\\projects\\icon4.png"
+    },
+    {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\images\\projects\\logo.png",
+      "PackagePath": "staticwebassets\\images\\projects\\logo.png"
+    },
+    {
+      "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\images\\projects\\project-image.png",
+      "PackagePath": "staticwebassets\\images\\projects\\project-image.png"
     },
     {
       "Id": "C:\\Projects\\ProjectManagerApp\\wwwroot\\js\\site.js",

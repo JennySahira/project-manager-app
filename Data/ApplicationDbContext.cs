@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagerApp.Models;
-
 
 namespace ProjectManagerApp.Data
 {
@@ -13,7 +11,17 @@ namespace ProjectManagerApp.Data
         {
         }
 
-        public DbSet<ProjectManagerApp.Models.Project> Projects { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
+        
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            // Fix för decimal Budget. Skapad med hjälp av ChatGpt.
+            builder.Entity<Project>()
+                .Property(p => p.Budget)
+                .HasColumnType("decimal(18,2)");
+        }
     }
 }

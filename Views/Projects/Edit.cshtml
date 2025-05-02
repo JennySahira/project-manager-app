@@ -1,102 +1,88 @@
 ﻿@model ProjectManagerApp.Models.Project
 
-@{
-    ViewData["Title"] = "Edit";
-}
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h1>Edit</h1>
+    @* Döljer ID och UserId i formuläret *@
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="UserId" />
 
-<h4>Project</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClientName" class="control-label"></label>
-                <input asp-for="ClientName" class="form-control" />
-                <span asp-validation-for="ClientName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Budget" class="control-label"></label>
-                <input asp-for="Budget" class="form-control" />
-                <span asp-validation-for="Budget" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Project Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="form-group">
+        <label asp-for="ClientName" class="control-label">Client Name</label>
+        <input asp-for="ClientName" class="form-control" />
+        <span asp-validation-for="ClientName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label">Start Date</label>
+        <input asp-for="StartDate" class="form-control" type="datetime-local" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label">End Date</label>
+        <input asp-for="EndDate" class="form-control" type="datetime-local" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Budget" class="control-label">Budget</label>
+        <input asp-for="Budget" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Budget" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status" class="control-label">Status</label>
+        @* Status dropdown genereras dynamiskt från enum med hjälp av Html.GetEnumSelectList. Skapad med hjälp av Chat Gpt *@
+        <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectManagerApp.Models.ProjectStatus>()">
+            <option value="">-- Select status --</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IconFileName" class="control-label">Project Icon</label>
+        <select asp-for="IconFileName" class="form-control" id="iconSelect" onchange="updateIconPreview()">
+            <option value="project-image.png">Project Image</option>
+            <option value="icon1.png">Icon 1</option>
+            <option value="icon2.png">Icon 2</option>
+            <option value="icon3.png">Icon 3</option>
+            <option value="icon4.png">Icon 4</option>
+        </select>
+        <span asp-validation-for="IconFileName" class="text-danger"></span>
+
+        @* Visar en förhandsgranskning av vald ikonbild. Skapad med hjälp av Chat Gpt *@
+        <div class="mt-2">
+            <img id="iconPreview" src="@Url.Content($"~/images/projects/{Model.IconFileName ?? "icon1.png"}")" alt="Preview" width="100" height="100" />
+        </div>
+    </div>
+
+    <div class="form-group mt-3 text-end">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 
     <script>
-        document.querySelector("form").addEventListener("submit", function (e) {
-            let isValid = true;
-            let name = document.getElementById("Name");
-            let client = document.getElementById("ClientName");
-            let budget = document.getElementById("Budget");
-
-            // Töm tidigare fel
-            document.querySelectorAll(".field-validation-error").forEach(el => el.textContent = "");
-
-            if (!name.value.trim()) {
-                isValid = false;
-                name.nextElementSibling.textContent = "Projektets namn är obligatoriskt.";
-            }
-
-            if (!client.value.trim()) {
-                isValid = false;
-                client.nextElementSibling.textContent = "Kundens namn är obligatoriskt.";
-            }
-
-            if (!budget.value.trim() || parseFloat(budget.value) <= 0) {
-                isValid = false;
-                budget.nextElementSibling.textContent = "Ange en giltig budget större än 0.";
-            }
-
-            if (!isValid) {
-                e.preventDefault(); // Stoppa formuläret om något saknas eller är fel
-            }
-        });
+        // Dynamiskt uppdaterar bildförhandsvisningen beroende på vald ikon i dropdown. Skapad med hjälp av Chat gpt
+        function updateIconPreview() {
+            const selectedValue = document.getElementById("iconSelect").value;
+            const previewImage = document.getElementById("iconPreview");
+            previewImage.src = `/images/projects/${selectedValue}`;
+        }
     </script>
 }

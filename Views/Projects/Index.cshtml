@@ -1,81 +1,145 @@
 ﻿@model IEnumerable<ProjectManagerApp.Models.Project>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Projects";
 }
 
-<h1>Index</h1>
+<div class="page-container">
+    <div class="projects-header">
+        <h2>Projects</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+        <a class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#createProjectModal">+ Add project</a>
+    </div>
 
-<form asp-action="Index" method="get" class="mb-3">
-    <label for="statusFilter">Filtrera efter status:</label>
-    <select name="statusFilter" id="statusFilter" onchange="this.form.submit()">
-        <option value="" selected="@(ViewContext.HttpContext.Request.Query["statusFilter"] == "" ? "selected" : null)">Alla</option>
-        <option value="Started" selected="@(ViewContext.HttpContext.Request.Query["statusFilter"] == "Started" ? "selected" : null)">Startade</option>
-        <option value="Completed" selected="@(ViewContext.HttpContext.Request.Query["statusFilter"] == "Completed" ? "selected" : null)">Slutförda</option>
-    </select>
-</form>
+    <div class="filter-tabs">
+        @* Skapad med hjälp av ChatGPT för att visa antal projekt per status *@
+        <a asp-action="Index" class="filter-link @(string.IsNullOrEmpty(ViewBag.Filter) ? "active" : "")">
+            All (@ViewBag.AllCount)
+        </a>
+        <a asp-action="Index" asp-route-statusFilter="Started" class="filter-link @(ViewBag.Filter == "Started" ? "active" : "")">
+            Started (@ViewBag.StartedCount)
+        </a>
+        <a asp-action="Index" asp-route-statusFilter="Completed" class="filter-link @(ViewBag.Filter == "Completed" ? "active" : "")">
+            Completed (@ViewBag.CompletedCount)
+        </a>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Budget)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Budget)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    <div class="project-grid">
+        @foreach (var project in Model)
+        {
+            <div class="project-card">
+                <img src="/images/projects/@(project.IconFileName ?? "project-image.png")"
+                     alt="@project.Name icon" class="project-icon" />
+
+                <div class="project-card-text">
+                    <h5 class="project-title">@project.Name</h5>
+                    <div class="project-client">@project.ClientName</div>
+                    <p class="project-description">@project.Description</p>
+                </div>
+
+                <div class="dropdown project-options">
+                    <button class="project-menu-toggle"
+                            type="button"
+                            id="dropdownMenuButton-@project.Id"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            title="Project options">
+                        ⋯
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton-@project.Id">
+                        <li>
+                            <button class="dropdown-item" onclick="openEditModal(@project.Id)">Edit</button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item text-danger" onclick="openDeleteModal(@project.Id)">Delete</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- CREATE PROJECT MODAL -->
+@* Modal för att skapa ett projekt, laddar partial view CreatePartial.cshtml. Skapad med hjälp av Chat gpt *@
+<div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createProjectLabel">Create project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("CreatePartial", new ProjectManagerApp.Models.Project())
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT PROJECT MODAL -->
+@* Modal för redigering, innehållet laddas dynamiskt via AJAX beroende på valt projekt. Skapad med hjälp av Chat gpt *@
+<div class="modal fade" id="editProjectModal" tabindex="-1" aria-labelledby="editProjectLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProjectLabel">Edit project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="editModalContent">
+                <!-- AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE PROJECT MODAL -->
+@* Modal för borttagning av projekt, innehållet laddas via DeletePartial.cshtml. Skapad med hjälp av Chat gpt *@
+<div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteProjectLabel">Delete project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="deleteModalContent">
+                <!-- AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        // Öppnar edit-modal och laddar innehållet dynamiskt från controller via fetch. Skapad med hjälp av Chat gpt.
+        function openEditModal(projectId) {
+            fetch(`/Projects/EditPartial/${projectId}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("editModalContent").innerHTML = html;
+                    const modal = new bootstrap.Modal(document.getElementById('editProjectModal'));
+                    modal.show();
+                });
+        }
+
+        // Byter förhandsgranskningen av ikonen beroende på vad som valts i dropdown. Skapad med hjälp av Chat gpt.
+        function updateIconPreview() {
+            const selectedValue = document.getElementById("iconSelect")?.value;
+            const previewImage = document.getElementById("iconPreview");
+            if (selectedValue && previewImage) {
+                previewImage.src = `/images/projects/${selectedValue}`;
+            }
+        }
+
+        // Öppnar delete-modal och laddar innehållet via fetch från controller. Skapad med hjälp av Chat gpt
+        function openDeleteModal(projectId) {
+            fetch(`/Projects/DeletePartial/${projectId}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("deleteModalContent").innerHTML = html;
+                    const modal = new bootstrap.Modal(document.getElementById('deleteProjectModal'));
+                    modal.show();
+                });
+        }
+    </script>
 }
-    </tbody>
-</table>

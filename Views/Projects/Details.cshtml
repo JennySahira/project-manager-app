@@ -1,66 +1,42 @@
 ﻿@model ProjectManagerApp.Models.Project
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Project Details";
 }
 
-<h1>Details</h1>
+<h1>Project Details</h1>
+<hr />
 
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClientName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClientName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Budget)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Budget)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Namn</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Kund</dt>
+            <dd class="col-sm-9">@Model.ClientName</dd>
+
+            <dt class="col-sm-3">Beskrivning</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
+
+            <dt class="col-sm-3">Startdatum</dt>
+            <dd class="col-sm-9">@Model.StartDate.ToString("yyyy-MM-dd HH:mm")</dd>
+
+            <dt class="col-sm-3">Slutdatum</dt>
+            <dd class="col-sm-9">@Model.EndDate.ToString("yyyy-MM-dd HH:mm")</dd>
+
+            @* Budget visas med valutatecken tack vare .ToString("C"). Skapad med hjälp av Chat Gpt *@
+            <dt class="col-sm-3">Budget</dt>
+            <dd class="col-sm-9">@Model.Budget.ToString("C")</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+        </dl>
+
+   
+        <div class="mt-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Redigera</a>
+            <a asp-action="Index" class="btn btn-secondary">Tillbaka till listan</a>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,90 @@
+﻿@model ProjectManagerApp.Models.Project
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="UserId" />
+
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label">Project Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="ClientName" class="form-label">Client Name</label>
+        <input asp-for="ClientName" class="form-control" />
+        <span asp-validation-for="ClientName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="StartDate" class="form-label">Start Date</label>
+        @* Sätter ett korrekt initialt värde i formatet 'yyyy-MM-ddTHH:mm' om datumet är satt.
+           Detta är nödvändigt eftersom datetime-local kräver exakt format för att visa värde korrekt i fältet.
+           Lösningen är framtagen med hjälp av ChatGPT. *@
+        <input asp-for="StartDate" class="form-control" type="datetime-local"
+               value="@(Model.StartDate > DateTime.MinValue ? Model.StartDate.ToString("yyyy-MM-ddTHH:mm") : "")" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="EndDate" class="form-label">End Date</label>
+        @* Samma logik som ovan – ser till att fältet visar korrekt värde vid redigering *@
+        <input asp-for="EndDate" class="form-control" type="datetime-local"
+               value="@(Model.EndDate > DateTime.MinValue ? Model.EndDate.ToString("yyyy-MM-ddTHH:mm") : "")" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Budget" class="form-label">Budget</label>
+        <input asp-for="Budget" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Budget" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Status" class="form-label">Status</label>
+        @* Drop-down-listan genereras från enum med hjälp av built-in HTML helper-metod. 
+           Detta håller listan i synk med enum-definitionen automatiskt.Skapad med hjälp av Chat gpt *@
+        <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectManagerApp.Models.ProjectStatus>()">
+            <option value="">-- Select status --</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="IconFileName" class="form-label">Project Icon</label>
+        <select asp-for="IconFileName" class="form-control" id="iconSelect" onchange="updateIconPreview()">
+            <option value="project-image.png">Project Image</option>
+            <option value="icon1.png">Icon 1</option>
+            <option value="icon2.png">Icon 2</option>
+            <option value="icon3.png">Icon 3</option>
+            <option value="icon4.png">Icon 4</option>
+        </select>
+        <span asp-validation-for="IconFileName" class="text-danger"></span>
+
+        <div class="mt-2">
+            @* Dynamisk bildvisning för vald ikon. Fallback till "icon1.png" om ingen ikon är vald. Skapad med hjälp av Chat gpt. *@
+            <img id="iconPreview" src="@Url.Content($"~/images/projects/{Model.IconFileName ?? "icon1.png"}")" alt="Preview" width="100" height="100" />
+        </div>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+<script>
+    // Byter ut bildens `src` beroende på vilken ikon användaren valt i dropdownmenyn. Skapad med hjälp av Chat Gpt.
+    function updateIconPreview() {
+        const selectedValue = document.getElementById("iconSelect").value;
+        const previewImage = document.getElementById("iconPreview");
+        previewImage.src = `/images/projects/${selectedValue}`;
+    }
+</script>
